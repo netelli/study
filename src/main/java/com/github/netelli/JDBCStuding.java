@@ -7,24 +7,39 @@ import java.sql.*;
  */
 public class JDBCStuding {
     public static void main(String[] args) throws Exception {
-        init();
-        try (Connection connection = getConnection();
-            Statement statement = connection.createStatement()) {
-            statement.execute("create table categories(" +
-                    "id integer primary key auto_increment, " +
-                    "title varchar(100));");
-            statement.execute("insert into categories(title) values ('skirts'), ('pants')");
-            ResultSet rs = statement.executeQuery("select * from categories");
+        DBConnection dbConnection = new DBConnection();
+        dbConnection.init();
+        try (Connection connection = dbConnection.getConnection();
+             Statement statement = connection.createStatement()) {
+            createTables(statement);
+            insertData(statement);
+
+            ResultSet rs = statement.executeQuery("select * from products");
             while (rs.next()) {
-                System.out.println(rs.getInt("id") + " : " + rs.getString("title"));
+                System.out.println(rs.getInt("id") + " : " + rs.getString("title") + " : " + rs.getInt("categoryId"));
             }
         }
     }
 
-    public static void init() throws ClassNotFoundException {
-        Class.forName("org.h2.Driver");
+    private static void insertData(Statement statement) throws SQLException {
+        statement.execute("insert into categories(title) values ('Skirts'), ('Pants')");
+        statement.execute("insert into brands(title) values ('Versace'), ('Dolce gabbana')");
+        statement.execute("insert into products(title, categoryId, brandId) values ('skirt mini', 1, 2), ('skirt midi', 1, 1)");
     }
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:h2:mem:test");
+
+    private static void createTables(Statement statement) throws SQLException {
+        statement.execute("create table categories(" +
+                "id integer primary key auto_increment, " +
+                "title varchar(100));");
+
+        statement.execute("create table brands(" +
+                "id integer primary key auto_increment, " +
+                "title varchar(100));");
+
+        statement.execute("create table products(" +
+                "id integer primary key auto_increment, " +
+                "title varchar(100), categoryId integer, brandId integer" +
+                "constraint categoryId foreign key (id) references categories (id)" +
+                "constraint brandId foreign key (id) references brands (id));");
     }
 }
