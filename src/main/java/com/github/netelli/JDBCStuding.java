@@ -1,29 +1,27 @@
 package com.github.netelli;
 
-import java.sql.*;
+import java.sql.ResultSet;
 
 /**
  * Created by user on 05.12.2016.
  */
 public class JDBCStuding {
     public static void main(String[] args) throws Exception {
-        DBConnection dbConnectio = new DBConnection();
-        ProductsDAO productsDAO = new ProductsDAO();
+        DBDrivers.load();
+        ProductsDAO productsDAO = new ProductsDAO("jdbc:h2:mem:test");
 
-        try (Connection connection = dbConnectio.getConnection();
-             Statement statement = connection.createStatement()) {
-            productsDAO.createTables(statement);
-            productsDAO.insertData(statement);
 
-            String tableName = "products";
-            ResultSet rs = productsDAO.getData(statement, tableName);
-            productsDAO.displayData(rs);
+        productsDAO.createTables();
+        productsDAO.insertData();
 
-            productsDAO.updateData(statement);
-            productsDAO.displayData(productsDAO.getData(statement, tableName));
+        String tableName = "products";
+        ResultSet rs = productsDAO.getData(tableName);
+        productsDAO.displayData(rs);
 
-            productsDAO.deleteData(statement);
-            productsDAO.displayData(productsDAO.getData(statement, tableName));
-        }
+        productsDAO.updateData();
+        productsDAO.displayData(productsDAO.getData(tableName));
+
+        productsDAO.deleteData();
+        productsDAO.displayData(productsDAO.getData(tableName));
     }
 }

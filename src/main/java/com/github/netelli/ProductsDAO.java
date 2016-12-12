@@ -6,12 +6,25 @@ import java.sql.*;
  * Created by user on 08.12.2016.
  */
 public class ProductsDAO {
-    public void deleteData(Statement statement) throws SQLException {
-        statement.execute("delete from products where brandId = 2");
+
+    private final String jdbcUrl;
+
+    public ProductsDAO(String jdbcUrl) {
+        this.jdbcUrl = jdbcUrl;
     }
 
-    public ResultSet getData(Statement statement, String tableName) throws SQLException {
-        return statement.executeQuery("select * from " + tableName);
+    public void deleteData() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(jdbcUrl);
+             Statement statement = connection.createStatement()) {
+            statement.execute("delete from products where brandId = 2");
+        }
+    }
+
+    public ResultSet getData(String tableName) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(jdbcUrl);
+             Statement statement = connection.createStatement()) {
+            return statement.executeQuery("select * from " + tableName);
+        }
     }
 
     public void displayData(ResultSet rs) throws SQLException {
@@ -22,30 +35,39 @@ public class ProductsDAO {
         System.out.println("_______________________________");
     }
 
-    public void updateData(Statement statement) throws SQLException {
-        statement.execute("update products set brandId = 2 where id = 2");
+    public void updateData() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(jdbcUrl);
+             Statement statement = connection.createStatement()) {
+            statement.execute("update products set brandId = 2 where id = 2");
+        }
     }
 
-    public void insertData(Statement statement) throws SQLException {
-        statement.execute("insert into categories(title) values ('Skirts'), ('Pants')");
-        statement.execute("insert into brands(title) values ('Versace'), ('Dolce gabbana')");
-        statement.execute("insert into products(title, categoryId, brandId) values ('skirt mini', 1, 2), ('skirt midi', 1, 1)," +
-                "('leather skirt', 1, 1)");
+    public void insertData() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(jdbcUrl);
+             Statement statement = connection.createStatement()) {
+            statement.execute("insert into categories(title) values ('Skirts'), ('Pants')");
+            statement.execute("insert into brands(title) values ('Versace'), ('Dolce gabbana')");
+            statement.execute("insert into products(title, categoryId, brandId) values ('skirt mini', 1, 2), ('skirt midi', 1, 1)," +
+                    "('leather skirt', 1, 1)");
+        }
     }
 
-    public void createTables(Statement statement) throws SQLException {
-        statement.execute("create table categories(" +
-                "id integer primary key auto_increment, " +
-                "title varchar(100));");
+    public void createTables() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(jdbcUrl);
+             Statement statement = connection.createStatement()) {
+            statement.execute("create table categories(" +
+                    "id integer primary key auto_increment, " +
+                    "title varchar(100));");
 
-        statement.execute("create table brands(" +
-                "id integer primary key auto_increment, " +
-                "title varchar(100));");
+            statement.execute("create table brands(" +
+                    "id integer primary key auto_increment, " +
+                    "title varchar(100));");
 
-        statement.execute("create table products(" +
-                "id integer primary key auto_increment, " +
-                "title varchar(100), categoryId integer, brandId integer," +
-                "foreign key (categoryId) references categories (id)," +
-                "foreign key (brandId) references brands (id));");
+            statement.execute("create table products(" +
+                    "id integer primary key auto_increment, " +
+                    "title varchar(100), categoryId integer, brandId integer," +
+                    "foreign key (categoryId) references categories (id)," +
+                    "foreign key (brandId) references brands (id));");
+        }
     }
 }
