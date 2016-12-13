@@ -7,10 +7,9 @@ import java.sql.ResultSet;
  */
 public class JDBCStuding {
     public static void main(String[] args) throws Exception {
-        DBDrivers.load();
         ProductsDAO productsDAO = new ProductsDAO("jdbc:h2:mem:test");
 
-
+        productsDAO.getConnection();
         productsDAO.createTables();
         productsDAO.insertData();
 
@@ -23,5 +22,7 @@ public class JDBCStuding {
 
         productsDAO.deleteData();
         productsDAO.displayData(productsDAO.getData(tableName));
+
+        productsDAO.closeConnection();
     }
 }
