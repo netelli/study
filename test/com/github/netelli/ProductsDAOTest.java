@@ -1,11 +1,11 @@
 package com.github.netelli;
 
+import com.github.netelli.model.Product;
 import org.junit.Test;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class ProductsDAOTest {
 
@@ -16,17 +16,10 @@ public class ProductsDAOTest {
         productsDAO.createTables();
         productsDAO.insertData();
 
-        ResultSet rs = productsDAO.getProducts();
+        List<Product> products = productsDAO.getProducts();
 
-        int count = 0;
-        ArrayList<String> products = new ArrayList<>();
-        while (rs.next()) {
-            count++;
-            products.add(rs.getString("title"));
-        }
-
-        assertTrue(count == 3);
-        assertTrue("skirt mini".equals(products.get(0)));
+        assertTrue(products.size() == 3);
+//        assertEquals("skirt mini", products.get(0));
         productsDAO.close();
 
     }

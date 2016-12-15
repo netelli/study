@@ -1,7 +1,8 @@
 package com.github.netelli;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.github.netelli.model.Product;
+
+import java.util.List;
 
 public class JDBCStuding {
     public static void main(String[] args) throws Exception {
@@ -12,22 +13,15 @@ public class JDBCStuding {
             productsDAO.createTables();
             productsDAO.insertData();
 
-            ResultSet rs = productsDAO.getProducts();
-            displayData(rs);
+            List<Product> products = productsDAO.getProducts();
+            products.forEach(System.out::println);
+
 
             productsDAO.updateData();
-            displayData(productsDAO.getProducts());
+            products.forEach(System.out::println);
 
             productsDAO.deleteData();
-            displayData(productsDAO.getProducts());
+            products.forEach(System.out::println);
         }
-    }
-
-    private static void displayData(ResultSet rs) throws SQLException {
-        System.out.println(("ID") + " | " + ("TITLE") + " | " + ("CATEGORY") + " | " + ("BRAND"));
-        while (rs.next()) {
-            System.out.println(rs.getInt("id") + " : " + rs.getString("title") + " : " + rs.getInt("categoryId") + " : " + rs.getInt("brandId"));
-        }
-        System.out.println("_______________________________");
     }
 }
