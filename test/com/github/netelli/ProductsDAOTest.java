@@ -7,9 +7,6 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by user on 13.12.2016.
- */
 public class ProductsDAOTest {
 
     @Test
@@ -30,6 +27,14 @@ public class ProductsDAOTest {
 
         assertTrue(count == 3);
         assertTrue("skirt mini".equals(products.get(0)));
+        productsDAO.close();
 
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testInit_WithError() throws Exception {
+        try (ProductsDAO productsDAO = new ProductsDAO("execute exception")) {
+            productsDAO.init();
+        }
     }
 }

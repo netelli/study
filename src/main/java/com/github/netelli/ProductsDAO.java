@@ -1,14 +1,17 @@
 package com.github.netelli;
 
+import com.google.common.base.Throwables;
+
 import java.sql.*;
 
-/**
- * Created by user on 08.12.2016.
- */
 public class ProductsDAO implements AutoCloseable {
 
     private final String jdbcUrl;
-    Connection connection = null;
+    private Connection connection;
+
+    public ProductsDAO(String jdbcUrl) {
+        this.jdbcUrl = jdbcUrl;
+    }
 
     public void init() {
         try {
@@ -18,11 +21,8 @@ public class ProductsDAO implements AutoCloseable {
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
-    }
-
-    public ProductsDAO(String jdbcUrl) {
-        this.jdbcUrl = jdbcUrl;
     }
 
     public void deleteData() throws SQLException {
