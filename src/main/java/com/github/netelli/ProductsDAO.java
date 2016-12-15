@@ -5,12 +5,12 @@ import java.sql.*;
 /**
  * Created by user on 08.12.2016.
  */
-public class ProductsDAO {
+public class ProductsDAO implements AutoCloseable {
 
     private final String jdbcUrl;
     Connection connection = null;
 
-    public Connection getConnection() {
+    public void init() {
         try {
             Class.forName("org.h2.Driver");
             if (connection == null) {
@@ -18,17 +18,6 @@ public class ProductsDAO {
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-        }
-        return connection;
-    }
-
-    public void closeConnection() {
-        try {
-            if (connection != null) {
-                connection.close();
-            }
-        } catch (Exception e) {
-            //do nothing
         }
     }
 
@@ -41,17 +30,9 @@ public class ProductsDAO {
         statement.execute("delete from products where brandId = 2");
     }
 
-    public ResultSet getData(String tableName) throws SQLException {
+    public ResultSet getProducts() throws SQLException {
         Statement statement = connection.createStatement();
-        return statement.executeQuery("select * from " + tableName);
-    }
-
-    public void displayData(ResultSet rs) throws SQLException {
-        System.out.println(("ID") + " | " + ("TITLE") + " | " + ("CATEGORY") + " | " + ("BRAND"));
-        while (rs.next()) {
-            System.out.println(rs.getInt("id") + " : " + rs.getString("title") + " : " + rs.getInt("categoryId") + " : " + rs.getInt("brandId"));
-        }
-        System.out.println("_______________________________");
+        return statement.executeQuery("select * from products");
     }
 
     public void updateData() throws SQLException {
@@ -82,5 +63,16 @@ public class ProductsDAO {
                 "title varchar(100), categoryId integer, brandId integer," +
                 "foreign key (categoryId) references categories (id)," +
                 "foreign key (brandId) references brands (id));");
+    }
+
+    @Override
+    public void close() throws Exception {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (Exception e) {
+            //do nothing
+        }
     }
 }

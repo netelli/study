@@ -15,11 +15,11 @@ public class ProductsDAOTest {
     @Test
     public void testInsertData() throws Exception {
         ProductsDAO productsDAO = new ProductsDAO("jdbc:h2:mem:test");
-        productsDAO.getConnection();
+        productsDAO.init();
         productsDAO.createTables();
         productsDAO.insertData();
 
-        ResultSet rs = productsDAO.getData("products");
+        ResultSet rs = productsDAO.getProducts();
 
         int count = 0;
         ArrayList<String> products = new ArrayList<>();
@@ -31,6 +31,5 @@ public class ProductsDAOTest {
         assertTrue(count == 3);
         assertTrue("skirt mini".equals(products.get(0)));
 
-        productsDAO.closeConnection();
     }
 }
