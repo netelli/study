@@ -1,6 +1,7 @@
 package com.github.netelli;
 
 import com.github.netelli.model.Product;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public class ProductsDAO implements AutoCloseable {
 
     private final String jdbcUrl;
     private Connection connection;
+    final static Logger logger = Logger.getLogger(ProductsDAO.class);
 
     public ProductsDAO(String jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
@@ -90,7 +92,7 @@ public class ProductsDAO implements AutoCloseable {
                 connection.close();
             }
         } catch (Exception e) {
-            System.out.println("Error while closing connection. " + e.getMessage());
+            logger.error("Error while closing connection. " + e.getMessage());
         }
     }
 }

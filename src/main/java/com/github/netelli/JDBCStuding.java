@@ -1,10 +1,13 @@
 package com.github.netelli;
 
 import com.github.netelli.model.Product;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
 public class JDBCStuding {
+    private final static Logger logger = Logger.getLogger(JDBCStuding.class);
+
     public static void main(String[] args) throws Exception {
         try (ProductsDAO productsDAO = new ProductsDAO("jdbc:h2:mem:test")) {
 
@@ -14,14 +17,15 @@ public class JDBCStuding {
             productsDAO.insertData();
 
             List<Product> products = productsDAO.getProducts();
-            products.forEach(System.out::println);
-
+            products.forEach(logger::info);
 
             productsDAO.updateData();
-            products.forEach(System.out::println);
+            products = productsDAO.getProducts();
+            products.forEach(logger::info);
 
             productsDAO.deleteData();
-            products.forEach(System.out::println);
+            products = productsDAO.getProducts();
+            products.forEach(logger::info);
         }
     }
 }
