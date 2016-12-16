@@ -25,6 +25,14 @@ public class Product {
         this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     @Override
     public String toString() {
         return "Product{" +

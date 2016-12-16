@@ -32,8 +32,7 @@ public class ProductsDAOTest {
         List<Product> products = productsDAO.getProducts();
 
         assertEquals(3, products.size());
-        //TODO fix test
-//        assertEquals("skirt mini", products.get(0));
+        assertEquals("skirt mini", products.get(0).getTitle());
     }
 
     @Test(expected = RuntimeException.class)
