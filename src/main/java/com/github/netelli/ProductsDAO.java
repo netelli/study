@@ -99,7 +99,7 @@ public class ProductsDAO implements AutoCloseable {
                 logger.info("Connection closed");
             }
         } catch (Exception e) {
-            logger.error("Error while closing connection. " + e.getMessage());
+            logger.error("Error while closing connection. " + e.getMessage(), e);
         }
     }
 }
