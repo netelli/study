@@ -5,9 +5,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ProductsDAOTest {
 
@@ -30,10 +32,11 @@ public class ProductsDAOTest {
         productsDAO.insertData();
 
         List<Product> products = productsDAO.getProducts();
+        products.sort(Comparator.comparing(Product::getId));
 
         assertEquals(3, products.size());
-        //TODO fix test
-//        assertEquals("skirt mini", products.get(0));
+        assertNotNull(products.get(0));
+        assertEquals("skirt mini", products.get(0).getTitle());
     }
 
     @Test(expected = RuntimeException.class)

@@ -1,6 +1,7 @@
 package com.github.netelli;
 
 import com.github.netelli.model.Product;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public class ProductsDAO implements AutoCloseable {
 
     private final String jdbcUrl;
     private Connection connection;
+    final static Logger logger = Logger.getLogger(ProductsDAO.class);
 
     public ProductsDAO(String jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
@@ -17,23 +19,28 @@ public class ProductsDAO implements AutoCloseable {
 
     public void init() {
         try {
+            logger.info("DB connection creation");
             Class.forName("org.h2.Driver");
             if (connection == null) {
                 connection = DriverManager.getConnection(jdbcUrl);
+                logger.info("Connection opened");
             }
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
 
     public void deleteData() throws SQLException {
+        int brandId = 2;
+        logger.info("Delete items from 'products' with brandId " + brandId);
         try (Statement statement = connection.createStatement()) {
-            statement.execute("delete from products where brandId = 2");
+            statement.execute("delete from products where brandId = " + brandId);
         }
     }
 
     public List<Product> getProducts() throws SQLException {
+        logger.info("Get data from 'products'");
         try (Statement statement = connection.createStatement()) {
             List<Product> products = new ArrayList<>();
             ResultSet rs = statement.executeQuery("select * from products");
@@ -51,12 +58,15 @@ public class ProductsDAO implements AutoCloseable {
     }
 
     public void updateData() throws SQLException {
+        int productId = 2;
+        logger.info("Update brandId for product with id " + productId);
         try (Statement statement = connection.createStatement()) {
-            statement.execute("update products set brandId = 2 where id = 2");
+            statement.execute("update products set brandId = 2 where id = " + productId);
         }
     }
 
     public void insertData() throws SQLException {
+        logger.info("Insert data to tables 'categories', 'brands', 'products'");
         try (Statement statement = connection.createStatement()) {
             statement.execute("insert into categories(title) values ('Skirts'), ('Pants')");
             statement.execute("insert into brands(title) values ('Versace'), ('Dolce gabbana')");
@@ -66,6 +76,7 @@ public class ProductsDAO implements AutoCloseable {
     }
 
     public void createTables() throws SQLException {
+        logger.info("Create tables: 'categories', 'brands', 'products'");
         try (Statement statement = connection.createStatement()) {
             statement.execute("create table categories(" +
                     "id integer primary key auto_increment, " +
@@ -88,9 +99,10 @@ public class ProductsDAO implements AutoCloseable {
         try {
             if (connection != null) {
                 connection.close();
+                logger.info("Connection closed");
             }
         } catch (Exception e) {
-            System.out.println("Error while closing connection. " + e.getMessage());
+            logger.error("Error while closing connection. " + e.getMessage(), e);
         }
     }
 }
