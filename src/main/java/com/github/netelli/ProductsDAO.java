@@ -32,9 +32,10 @@ public class ProductsDAO implements AutoCloseable {
     }
 
     public void deleteData() throws SQLException {
-        logger.info("Delete items from 'products' with brandId 2");
+        int brandId = 2;
+        logger.info("Delete items from 'products' with brandId " + brandId);
         try (Statement statement = connection.createStatement()) {
-            statement.execute("delete from products where brandId = 2");
+            statement.execute("delete from products where brandId = " + brandId);
         }
     }
 
@@ -57,9 +58,10 @@ public class ProductsDAO implements AutoCloseable {
     }
 
     public void updateData() throws SQLException {
-        logger.info("Update brandId for product with id 2");
+        int productId = 2;
+        logger.info("Update brandId for product with id " + productId);
         try (Statement statement = connection.createStatement()) {
-            statement.execute("update products set brandId = 2 where id = 2");
+            statement.execute("update products set brandId = 2 where id = " + productId);
         }
     }
 

@@ -9,6 +9,7 @@ public class JDBCStuding {
     private final static Logger logger = Logger.getLogger(JDBCStuding.class);
 
     public static void main(String[] args) throws Exception {
+        logger.info("Start working");
         try (ProductsDAO productsDAO = new ProductsDAO("jdbc:h2:mem:test")) {
 
             productsDAO.init();
@@ -27,5 +28,6 @@ public class JDBCStuding {
             products = productsDAO.getProducts();
             products.forEach(logger::info);
         }
+        logger.info("Stop working");
     }
 }
