@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class ProductsDAO implements AutoCloseable {
@@ -52,7 +51,6 @@ public class ProductsDAO implements AutoCloseable {
 
                 products.add(product);
             }
-            products.sort(Comparator.comparing(Product::getId));
             return products;
         }
     }

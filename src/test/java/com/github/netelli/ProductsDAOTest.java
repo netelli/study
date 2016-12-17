@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -30,6 +31,7 @@ public class ProductsDAOTest {
         productsDAO.insertData();
 
         List<Product> products = productsDAO.getProducts();
+        products.sort(Comparator.comparing(Product::getId));
 
         assertEquals(3, products.size());
         assertEquals("skirt mini", products.get(0).getTitle());
