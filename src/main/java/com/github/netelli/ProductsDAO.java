@@ -19,27 +19,28 @@ public class ProductsDAO implements AutoCloseable {
 
     public void init() {
         try {
+            logger.info("DB connection creation");
             Class.forName("org.h2.Driver");
             if (connection == null) {
                 connection = DriverManager.getConnection(jdbcUrl);
                 logger.info("Connection opened");
             }
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
 
     public void deleteData() throws SQLException {
+        logger.info("Delete items from 'products' with brandId 2");
         try (Statement statement = connection.createStatement()) {
-            logger.info("Delete items from 'products' with brandId 2");
             statement.execute("delete from products where brandId = 2");
         }
     }
 
     public List<Product> getProducts() throws SQLException {
+        logger.info("Get data from 'products'");
         try (Statement statement = connection.createStatement()) {
-            logger.info("Get data from 'products'");
             List<Product> products = new ArrayList<>();
             ResultSet rs = statement.executeQuery("select * from products");
             while (rs.next()) {
@@ -56,15 +57,15 @@ public class ProductsDAO implements AutoCloseable {
     }
 
     public void updateData() throws SQLException {
+        logger.info("Update brandId for product with id 2");
         try (Statement statement = connection.createStatement()) {
-            logger.info("Update brandId for product with id 2");
             statement.execute("update products set brandId = 2 where id = 2");
         }
     }
 
     public void insertData() throws SQLException {
+        logger.info("Insert data to tables 'categories', 'brands', 'products'");
         try (Statement statement = connection.createStatement()) {
-            logger.info("Insert data to tables 'categories', 'brands', 'products'");
             statement.execute("insert into categories(title) values ('Skirts'), ('Pants')");
             statement.execute("insert into brands(title) values ('Versace'), ('Dolce gabbana')");
             statement.execute("insert into products(title, categoryId, brandId) values ('skirt mini', 1, 2), ('skirt midi', 1, 1)," +
@@ -73,8 +74,8 @@ public class ProductsDAO implements AutoCloseable {
     }
 
     public void createTables() throws SQLException {
+        logger.info("Create tables: 'categories', 'brands', 'products'");
         try (Statement statement = connection.createStatement()) {
-            logger.info("Create tables: 'categories', 'brands', 'products'");
             statement.execute("create table categories(" +
                     "id integer primary key auto_increment, " +
                     "title varchar(100));");
