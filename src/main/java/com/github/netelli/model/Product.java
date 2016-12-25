@@ -1,8 +1,5 @@
 package com.github.netelli.model;
 
-/**
- * Created by user on 15.12.2016.
- */
 public class Product {
     private String title;
     private int categoryId;
@@ -31,6 +28,10 @@ public class Product {
 
     public String getTitle() {
         return title;
+    }
+
+    public int getBrandId() {
+        return brandId;
     }
 
     @Override

@@ -18,6 +18,8 @@ public class ProductsDAOTest {
     @Before
     public void setUp() throws Exception {
         productsDAO = new ProductsDAO("jdbc:h2:mem:test");
+        productsDAO.init();
+        productsDAO.createTables();
     }
 
     @After
@@ -27,8 +29,6 @@ public class ProductsDAOTest {
 
     @Test
     public void testInsertData() throws Exception {
-        productsDAO.init();
-        productsDAO.createTables();
         productsDAO.insertData();
 
         List<Product> products = productsDAO.getProducts();
@@ -37,6 +37,31 @@ public class ProductsDAOTest {
         assertEquals(3, products.size());
         assertNotNull(products.get(0));
         assertEquals("skirt mini", products.get(0).getTitle());
+
+        assertNotNull(products.get(1));
+        assertEquals(1, products.get(1).getBrandId());
+    }
+
+    @Test
+    public void testUpdateData() throws Exception {
+        productsDAO.insertData();
+        productsDAO.updateData();
+
+        List<Product> products = productsDAO.getProducts();
+        products.sort(Comparator.comparing(Product::getId));
+
+        assertNotNull(products.get(1));
+        assertEquals(2, products.get(1).getBrandId());
+    }
+
+    @Test
+    public void testDeleteData() throws Exception {
+        productsDAO.insertData();
+        productsDAO.updateData();
+        productsDAO.deleteData();
+
+        List<Product> products = productsDAO.getProducts();
+        assertEquals(1, products.size());
     }
 
     @Test(expected = RuntimeException.class)
