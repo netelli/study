@@ -45,7 +45,7 @@ public class ProductsDAOTest {
     @Test
     public void testUpdateData() throws Exception {
         productsDAO.insertData();
-        productsDAO.updateData();
+        productsDAO.updateBrandId(2, 2);
 
         List<Product> products = productsDAO.getProducts();
         products.sort(Comparator.comparing(Product::getId));
@@ -57,8 +57,8 @@ public class ProductsDAOTest {
     @Test
     public void testDeleteData() throws Exception {
         productsDAO.insertData();
-        productsDAO.updateData();
-        productsDAO.deleteData();
+        productsDAO.updateBrandId(2, 2);
+        productsDAO.deleteByBrandId(2);
 
         List<Product> products = productsDAO.getProducts();
         assertEquals(1, products.size());

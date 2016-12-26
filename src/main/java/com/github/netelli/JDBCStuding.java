@@ -20,11 +20,11 @@ public class JDBCStuding {
             List<Product> products = productsDAO.getProducts();
             products.forEach(logger::info);
 
-            productsDAO.updateData();
+            productsDAO.updateBrandId(2, 2);
             products = productsDAO.getProducts();
             products.forEach(logger::info);
 
-            productsDAO.deleteData();
+            productsDAO.deleteByBrandId(2);
             products = productsDAO.getProducts();
             products.forEach(logger::info);
         }
