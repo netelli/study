@@ -33,16 +33,17 @@ public class ProductsDAO implements AutoCloseable {
 
     public void deleteByBrandId(int brandId) throws SQLException {
         logger.info("Delete items from 'products' with brandId " + brandId);
-        PreparedStatement statement = connection.prepareStatement("delete from products where brandId = ?");
-        statement.setInt(1, brandId);
-        statement.executeUpdate();
+        try (PreparedStatement statement = connection.prepareStatement("delete from products where brandId = ?")) {
+            statement.setInt(1, brandId);
+            statement.executeUpdate();
+        }
     }
 
     public List<Product> getProducts() throws SQLException {
         logger.info("Get data from 'products'");
-        try (Statement statement = connection.createStatement()) {
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery("select * from products")) {
             List<Product> products = new ArrayList<>();
-            ResultSet rs = statement.executeQuery("select * from products");
             while (rs.next()) {
                 Product product = new Product();
                 product.setTitle(rs.getString("title"));
@@ -58,10 +59,11 @@ public class ProductsDAO implements AutoCloseable {
 
     public void updateBrandId(int brandId, int productId) throws SQLException {
         logger.info("Update brandId for product with id " + productId);
-        PreparedStatement statement = connection.prepareStatement("update products set brandId = ? where id = ?");
-        statement.setInt(1, brandId);
-        statement.setInt(2, productId);
-        statement.executeUpdate();
+        try (PreparedStatement statement = connection.prepareStatement("update products set brandId = ? where id = ?")) {
+            statement.setInt(1, brandId);
+            statement.setInt(2, productId);
+            statement.executeUpdate();
+        }
     }
 
     public void insertData() throws SQLException {
