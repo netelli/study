@@ -31,19 +31,19 @@ public class ProductsDAO implements AutoCloseable {
         }
     }
 
-    public void deleteData() throws SQLException {
-        int brandId = 2;
+    public void deleteByBrandId(int brandId) throws SQLException {
         logger.info("Delete items from 'products' with brandId " + brandId);
-        try (Statement statement = connection.createStatement()) {
-            statement.execute("delete from products where brandId = " + brandId);
+        try (PreparedStatement statement = connection.prepareStatement("delete from products where brandId = ?")) {
+            statement.setInt(1, brandId);
+            statement.executeUpdate();
         }
     }
 
     public List<Product> getProducts() throws SQLException {
         logger.info("Get data from 'products'");
-        try (Statement statement = connection.createStatement()) {
+        try (Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery("select * from products")) {
             List<Product> products = new ArrayList<>();
-            ResultSet rs = statement.executeQuery("select * from products");
             while (rs.next()) {
                 Product product = new Product();
                 product.setTitle(rs.getString("title"));
@@ -57,11 +57,12 @@ public class ProductsDAO implements AutoCloseable {
         }
     }
 
-    public void updateData() throws SQLException {
-        int productId = 2;
+    public void updateBrandId(int brandId, int productId) throws SQLException {
         logger.info("Update brandId for product with id " + productId);
-        try (Statement statement = connection.createStatement()) {
-            statement.execute("update products set brandId = 2 where id = " + productId);
+        try (PreparedStatement statement = connection.prepareStatement("update products set brandId = ? where id = ?")) {
+            statement.setInt(1, brandId);
+            statement.setInt(2, productId);
+            statement.executeUpdate();
         }
     }
 
@@ -70,8 +71,8 @@ public class ProductsDAO implements AutoCloseable {
         try (Statement statement = connection.createStatement()) {
             statement.execute("insert into categories(title) values ('Skirts'), ('Pants')");
             statement.execute("insert into brands(title) values ('Versace'), ('Dolce gabbana')");
-            statement.execute("insert into products(title, categoryId, brandId) values ('skirt mini', 1, 2), ('skirt midi', 1, 1)," +
-                    "('leather skirt', 1, 1)");
+            statement.execute("insert into products(title, categoryId, brandId) values ('skirt mini', 1, 2), " +
+                    "('skirt midi', 1, 1), ('leather skirt', 1, 1)");
         }
     }
 
