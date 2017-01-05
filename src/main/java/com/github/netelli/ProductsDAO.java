@@ -7,28 +7,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsDAO implements AutoCloseable {
-
-    private final String jdbcUrl;
-    private Connection connection;
-    final static Logger logger = Logger.getLogger(ProductsDAO.class);
+public class ProductsDAO extends TablesDAO {
 
     public ProductsDAO(String jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
-    }
-
-    public void init() {
-        try {
-            logger.info("DB connection creation");
-            Class.forName("org.h2.Driver");
-            if (connection == null) {
-                connection = DriverManager.getConnection(jdbcUrl);
-                logger.info("Connection opened");
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            logger.error(e.getMessage(), e);
-            throw new RuntimeException(e);
-        }
     }
 
     public void deleteByBrandId(int brandId) throws SQLException {
@@ -92,18 +74,6 @@ public class ProductsDAO implements AutoCloseable {
                     "title varchar(100), categoryId integer, brandId integer," +
                     "foreign key (categoryId) references categories (id)," +
                     "foreign key (brandId) references brands (id));");
-        }
-    }
-
-    @Override
-    public void close() throws Exception {
-        try {
-            if (connection != null) {
-                connection.close();
-                logger.info("Connection closed");
-            }
-        } catch (Exception e) {
-            logger.error("Error while closing connection. " + e.getMessage(), e);
         }
     }
 }
