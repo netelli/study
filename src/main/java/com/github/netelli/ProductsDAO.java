@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductsDAO extends TablesDAO {
-
     public ProductsDAO(String jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
     }
@@ -49,25 +48,16 @@ public class ProductsDAO extends TablesDAO {
     }
 
     public void insertData() throws SQLException {
-        logger.info("Insert data to tables 'categories', 'brands', 'products'");
+        logger.info("Insert data to table 'products'");
         try (Statement statement = connection.createStatement()) {
-            statement.execute("insert into categories(title) values ('Skirts'), ('Pants')");
-            statement.execute("insert into brands(title) values ('Versace'), ('Dolce gabbana')");
             statement.execute("insert into products(title, categoryId, brandId) values ('skirt mini', 1, 2), " +
                     "('skirt midi', 1, 1), ('leather skirt', 1, 1)");
         }
     }
 
-    public void createTables() throws SQLException {
-        logger.info("Create tables: 'categories', 'brands', 'products'");
+    public void createTable() throws SQLException {
+        logger.info("Create table: 'products'");
         try (Statement statement = connection.createStatement()) {
-            statement.execute("create table categories(" +
-                    "id integer primary key auto_increment, " +
-                    "title varchar(100));");
-
-            statement.execute("create table brands(" +
-                    "id integer primary key auto_increment, " +
-                    "title varchar(100));");
 
             statement.execute("create table products(" +
                     "id integer primary key auto_increment, " +

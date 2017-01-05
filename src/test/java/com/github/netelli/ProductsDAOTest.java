@@ -14,21 +14,37 @@ import static org.junit.Assert.assertNotNull;
 public class ProductsDAOTest {
 
     private ProductsDAO productsDAO;
+    private CategoriesDAO categoriesDAO;
+    private BrandsDAO brandsDAO;
 
     @Before
     public void setUp() throws Exception {
-        productsDAO = new ProductsDAO("jdbc:h2:mem:test");
+        String jdbcUrl = "jdbc:h2:mem:test";
+
+        categoriesDAO = new CategoriesDAO(jdbcUrl);
+        categoriesDAO.init();
+        categoriesDAO.createTable();
+
+        brandsDAO = new BrandsDAO(jdbcUrl);
+        brandsDAO.init();
+        brandsDAO.createTable();
+
+        productsDAO = new ProductsDAO(jdbcUrl);
         productsDAO.init();
-        productsDAO.createTables();
+        productsDAO.createTable();
     }
 
     @After
     public void tearDown() throws Exception {
+        categoriesDAO.close();
+        brandsDAO.close();
         productsDAO.close();
     }
 
     @Test
     public void testInsertData() throws Exception {
+        categoriesDAO.insertData();
+        brandsDAO.insertData();
         productsDAO.insertData();
 
         List<Product> products = productsDAO.getProducts();
@@ -44,6 +60,8 @@ public class ProductsDAOTest {
 
     @Test
     public void testUpdateData() throws Exception {
+        categoriesDAO.insertData();
+        brandsDAO.insertData();
         productsDAO.insertData();
         productsDAO.updateBrandId(2, 2);
 
@@ -56,6 +74,8 @@ public class ProductsDAOTest {
 
     @Test
     public void testDeleteData() throws Exception {
+        categoriesDAO.insertData();
+        brandsDAO.insertData();
         productsDAO.insertData();
         productsDAO.updateBrandId(2, 2);
         productsDAO.deleteByBrandId(2);

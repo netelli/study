@@ -1,5 +1,7 @@
 package com.github.netelli;
 
+import com.github.netelli.model.Brands;
+import com.github.netelli.model.Categories;
 import com.github.netelli.model.Product;
 import org.apache.log4j.Logger;
 
@@ -10,12 +12,27 @@ public class JDBCStuding {
 
     public static void main(String[] args) throws Exception {
         logger.info("Start working");
-        try (ProductsDAO productsDAO = new ProductsDAO("jdbc:h2:mem:test")) {
+        String jdbcUrl = "jdbc:h2:mem:test";
+        try (ProductsDAO productsDAO = new ProductsDAO(jdbcUrl);
+             CategoriesDAO categoriesDAO = new CategoriesDAO(jdbcUrl); BrandsDAO brandsDAO = new BrandsDAO(jdbcUrl)) {
 
+            categoriesDAO.init();
+            brandsDAO.init();
             productsDAO.init();
 
-            productsDAO.createTables();
+            categoriesDAO.createTable();
+            brandsDAO.createTable();
+            productsDAO.createTable();
+
+            categoriesDAO.insertData();
+            brandsDAO.insertData();
             productsDAO.insertData();
+
+            List<Categories> categories = categoriesDAO.getCategories();
+            categories.forEach(logger::info);
+
+            List<Brands> brands = brandsDAO.getBrands();
+            brands.forEach(logger::info);
 
             List<Product> products = productsDAO.getProducts();
             products.forEach(logger::info);
