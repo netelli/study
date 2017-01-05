@@ -1,7 +1,7 @@
 package com.github.netelli;
 
 import com.github.netelli.model.Brands;
-import com.github.netelli.model.Categories;
+import com.github.netelli.model.Category;
 import com.github.netelli.model.Product;
 import org.apache.log4j.Logger;
 
@@ -28,7 +28,7 @@ public class JDBCStuding {
             brandsDAO.insertData();
             productsDAO.insertData();
 
-            List<Categories> categories = categoriesDAO.getCategories();
+            List<Category> categories = categoriesDAO.getCategories();
             categories.forEach(logger::info);
 
             List<Brands> brands = brandsDAO.getBrands();

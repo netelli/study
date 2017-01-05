@@ -1,7 +1,6 @@
 package com.github.netelli;
 
-import com.github.netelli.model.Categories;
-import com.github.netelli.model.Product;
+import com.github.netelli.model.Category;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,13 +32,13 @@ public class CategoriesDAO extends TablesDAO {
         }
     }
 
-    public List<Categories> getCategories() throws SQLException {
+    public List<Category> getCategories() throws SQLException {
         logger.info("Get data from 'categories'");
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery("select * from categories")) {
-            List<Categories> categories = new ArrayList<>();
+            List<Category> categories = new ArrayList<>();
             while (rs.next()) {
-                Categories category = new Categories();
+                Category category = new Category();
                 category.setTitle(rs.getString("title"));
                 category.setId(rs.getInt("id"));
 

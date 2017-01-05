@@ -3,7 +3,7 @@ package com.github.netelli.model;
 /**
  * Created by nataliiaku on 1/5/2017.
  */
-public class Categories {
+public class Category {
     private int id;
     private String title;
 
@@ -17,7 +17,7 @@ public class Categories {
 
     @Override
     public String toString() {
-        return "Categories{" +
+        return "Category{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 '}';

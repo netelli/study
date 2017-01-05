@@ -1,7 +1,6 @@
 package com.github.netelli;
 
 import com.github.netelli.model.Brands;
-import com.github.netelli.model.Categories;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
