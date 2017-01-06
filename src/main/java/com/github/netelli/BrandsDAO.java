@@ -1,6 +1,6 @@
 package com.github.netelli;
 
-import com.github.netelli.model.Brands;
+import com.github.netelli.model.Brand;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,11 +11,12 @@ import java.util.List;
 /**
  * Created by nataliiaku on 1/5/2017.
  */
-public class BrandsDAO extends TablesDAO {
+public class BrandsDAO extends BaseDAO {
     public BrandsDAO(String jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
     }
 
+    @Override
     public void createTable() throws SQLException {
         logger.info("Create table: 'brands'");
         try (Statement statement = connection.createStatement()) {
@@ -26,6 +27,7 @@ public class BrandsDAO extends TablesDAO {
         }
     }
 
+    @Override
     public void insertData() throws SQLException {
         logger.info("Insert data to table 'brands'");
         try (Statement statement = connection.createStatement()) {
@@ -33,13 +35,13 @@ public class BrandsDAO extends TablesDAO {
         }
     }
 
-    public List<Brands> getBrands() throws SQLException {
+    public List<Brand> getBrands() throws SQLException {
         logger.info("Get data from 'brands'");
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery("select * from brands")) {
-            List<Brands> brands = new ArrayList<>();
+            List<Brand> brands = new ArrayList<>();
             while (rs.next()) {
-                Brands brand = new Brands();
+                Brand brand = new Brand();
                 brand.setTitle(rs.getString("title"));
                 brand.setId(rs.getInt("id"));
 

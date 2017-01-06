@@ -1,13 +1,12 @@
 package com.github.netelli;
 
 import com.github.netelli.model.Product;
-import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsDAO extends TablesDAO {
+public class ProductsDAO extends BaseDAO {
     public ProductsDAO(String jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
     }
@@ -47,6 +46,7 @@ public class ProductsDAO extends TablesDAO {
         }
     }
 
+    @Override
     public void insertData() throws SQLException {
         logger.info("Insert data to table 'products'");
         try (Statement statement = connection.createStatement()) {
@@ -55,6 +55,7 @@ public class ProductsDAO extends TablesDAO {
         }
     }
 
+    @Override
     public void createTable() throws SQLException {
         logger.info("Create table: 'products'");
         try (Statement statement = connection.createStatement()) {

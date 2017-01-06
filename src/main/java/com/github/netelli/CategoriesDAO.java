@@ -11,11 +11,12 @@ import java.util.List;
 /**
  * Created by nataliiaku on 1/5/2017.
  */
-public class CategoriesDAO extends TablesDAO {
+public class CategoriesDAO extends BaseDAO {
     public CategoriesDAO(String jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
     }
 
+    @Override
     public void createTable() throws SQLException {
         logger.info("Create table: 'categories'");
         try (Statement statement = connection.createStatement()) {
@@ -25,6 +26,7 @@ public class CategoriesDAO extends TablesDAO {
         }
     }
 
+    @Override
     public void insertData() throws SQLException {
         logger.info("Insert data to table 'categories'");
         try (Statement statement = connection.createStatement()) {

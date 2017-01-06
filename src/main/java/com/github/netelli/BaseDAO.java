@@ -6,10 +6,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class TablesDAO implements AutoCloseable {
-    final static Logger logger = Logger.getLogger(ProductsDAO.class);
-    public Connection connection;
-    public String jdbcUrl;
+public abstract class BaseDAO implements AutoCloseable {
+    protected final static Logger logger = Logger.getLogger(ProductsDAO.class);
+    protected Connection connection;
+    protected String jdbcUrl;
 
     public void init() {
         try {
@@ -24,6 +24,10 @@ public abstract class TablesDAO implements AutoCloseable {
             throw new RuntimeException(e);
         }
     }
+
+    public abstract void createTable() throws SQLException;
+
+    public abstract void insertData() throws SQLException;
 
     @Override
     public void close() throws Exception {

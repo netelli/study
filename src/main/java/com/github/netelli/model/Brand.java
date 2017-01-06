@@ -3,7 +3,7 @@ package com.github.netelli.model;
 /**
  * Created by nataliiaku on 1/5/2017.
  */
-public class Brands {
+public class Brand {
 
 
     private String title;
@@ -19,7 +19,7 @@ public class Brands {
 
     @Override
     public String toString() {
-        return "Brands{" +
+        return "Brand{" +
                 "title='" + title + '\'' +
                 ", id=" + id +
                 '}';
