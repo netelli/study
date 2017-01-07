@@ -47,7 +47,7 @@ public class ProductsDAOTest {
         brandsDAO.insertData();
         productsDAO.insertData();
 
-        List<Product> products = productsDAO.getProducts();
+        List<Product> products = productsDAO.getAll();
         products.sort(Comparator.comparing(Product::getId));
 
         assertEquals(3, products.size());
@@ -65,7 +65,7 @@ public class ProductsDAOTest {
         productsDAO.insertData();
         productsDAO.updateBrandId(2, 2);
 
-        List<Product> products = productsDAO.getProducts();
+        List<Product> products = productsDAO.getAll();
         products.sort(Comparator.comparing(Product::getId));
 
         assertNotNull(products.get(1));
@@ -80,7 +80,7 @@ public class ProductsDAOTest {
         productsDAO.updateBrandId(2, 2);
         productsDAO.deleteByBrandId(2);
 
-        List<Product> products = productsDAO.getProducts();
+        List<Product> products = productsDAO.getAll();
         assertEquals(1, products.size());
     }
 

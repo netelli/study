@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by nataliiaku on 1/5/2017.
  */
-public class CategoriesDAO extends BaseDAO {
+public class CategoriesDAO extends BaseDAO<Category> {
     public CategoriesDAO(String jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
     }
@@ -34,7 +34,8 @@ public class CategoriesDAO extends BaseDAO {
         }
     }
 
-    public List<Category> getCategories() throws SQLException {
+    @Override
+    public List<Category> getAll() throws SQLException {
         logger.info("Get data from 'categories'");
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery("select * from categories")) {

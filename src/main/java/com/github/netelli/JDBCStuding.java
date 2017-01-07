@@ -29,21 +29,21 @@ public class JDBCStuding {
             brandsDAO.insertData();
             productsDAO.insertData();
 
-            List<Category> categories = categoriesDAO.getCategories();
+            List<Category> categories = categoriesDAO.getAll();
             categories.forEach(logger::info);
 
-            List<Brand> brands = brandsDAO.getBrands();
+            List<Brand> brands = brandsDAO.getAll();
             brands.forEach(logger::info);
 
-            List<Product> products = productsDAO.getProducts();
+            List<Product> products = productsDAO.getAll();
             products.forEach(logger::info);
 
             productsDAO.updateBrandId(2, 2);
-            products = productsDAO.getProducts();
+            products = productsDAO.getAll();
             products.forEach(logger::info);
 
             productsDAO.deleteByBrandId(2);
-            products = productsDAO.getProducts();
+            products = productsDAO.getAll();
             products.forEach(logger::info);
         }
         logger.info("Stop working");

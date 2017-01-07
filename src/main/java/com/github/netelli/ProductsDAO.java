@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsDAO extends BaseDAO {
+public class ProductsDAO extends BaseDAO<Product> {
     public ProductsDAO(String jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
     }
@@ -19,7 +19,8 @@ public class ProductsDAO extends BaseDAO {
         }
     }
 
-    public List<Product> getProducts() throws SQLException {
+    @Override
+    public List<Product> getAll() throws SQLException {
         logger.info("Get data from 'products'");
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery("select * from products")) {

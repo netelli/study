@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by nataliiaku on 1/5/2017.
  */
-public class BrandsDAO extends BaseDAO {
+public class BrandsDAO extends BaseDAO<Brand> {
     public BrandsDAO(String jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
     }
@@ -35,7 +35,8 @@ public class BrandsDAO extends BaseDAO {
         }
     }
 
-    public List<Brand> getBrands() throws SQLException {
+    @Override
+    public List<Brand> getAll() throws SQLException {
         logger.info("Get data from 'brands'");
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery("select * from brands")) {
