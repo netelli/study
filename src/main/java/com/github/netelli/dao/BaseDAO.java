@@ -1,4 +1,4 @@
-package com.github.netelli;
+package com.github.netelli.dao;
 
 import org.apache.log4j.Logger;
 

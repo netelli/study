@@ -1,5 +1,11 @@
 package com.github.netelli;
 
+import com.github.netelli.dao.BrandsDAO;
+import com.github.netelli.dao.CategoriesDAO;
+import com.github.netelli.dao.ProductsDAO;
+import com.github.netelli.model.DataSourceWrapper;
+import com.github.netelli.model.DataSourceWrapperFactory;
+import com.github.netelli.model.DataSourceType;
 import com.github.netelli.model.Product;
 import org.junit.After;
 import org.junit.Before;
@@ -16,6 +22,7 @@ public class ProductsDAOTest {
     private ProductsDAO productsDAO;
     private CategoriesDAO categoriesDAO;
     private BrandsDAO brandsDAO;
+    private DataSourceWrapper dataSourceWrapper;
 
     @Before
     public void setUp() throws Exception {
@@ -25,7 +32,8 @@ public class ProductsDAOTest {
         categoriesDAO.init();
         categoriesDAO.createTable();
 
-        brandsDAO = new BrandsDAO(jdbcUrl);
+        dataSourceWrapper = DataSourceWrapperFactory.getWrapper(jdbcUrl, DataSourceType.H2);
+        brandsDAO = new BrandsDAO(dataSourceWrapper.getDataSource());
         brandsDAO.init();
         brandsDAO.createTable();
 
@@ -39,6 +47,8 @@ public class ProductsDAOTest {
         categoriesDAO.close();
         brandsDAO.close();
         productsDAO.close();
+
+        dataSourceWrapper.close();
     }
 
     @Test

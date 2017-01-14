@@ -1,4 +1,4 @@
-package com.github.netelli;
+package com.github.netelli.dao;
 
 import com.github.netelli.model.Product;
 
@@ -61,7 +61,7 @@ public class ProductsDAO extends BaseDAO<Product> {
         logger.info("Create table: 'products'");
         try (Statement statement = connection.createStatement()) {
 
-            statement.execute("create table products(" +
+            statement.execute("create table if not exists products(" +
                     "id integer primary key auto_increment, " +
                     "title varchar(100), categoryId integer, brandId integer," +
                     "foreign key (categoryId) references categories (id)," +

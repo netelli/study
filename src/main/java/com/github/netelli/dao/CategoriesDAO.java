@@ -1,4 +1,4 @@
-package com.github.netelli;
+package com.github.netelli.dao;
 
 import com.github.netelli.model.Category;
 
@@ -20,7 +20,7 @@ public class CategoriesDAO extends BaseDAO<Category> {
     public void createTable() throws SQLException {
         logger.info("Create table: 'categories'");
         try (Statement statement = connection.createStatement()) {
-            statement.execute("create table categories(" +
+            statement.execute("create table if not exists categories(" +
                     "id integer primary key auto_increment, " +
                     "title varchar(100));");
         }
