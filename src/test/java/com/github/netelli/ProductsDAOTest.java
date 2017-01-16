@@ -41,10 +41,6 @@ public class ProductsDAOTest {
 
     @After
     public void tearDown() throws Exception {
-        categoriesDAO.close();
-        brandsDAO.close();
-        productsDAO.close();
-
         dataSourceWrapper.close();
     }
 

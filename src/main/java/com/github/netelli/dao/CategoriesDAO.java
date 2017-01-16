@@ -17,7 +17,6 @@ public class CategoriesDAO extends BaseDAO<Category> {
         this.dataSource = dataSource;
     }
 
-
     @Override
     public void createTable() throws SQLException {
         logger.info("Create table: 'categories'");
