@@ -22,15 +22,10 @@ public class JDBCStuding {
         DataSourceType dataSourceType = DataSourceType.valueOf(dsType);
 
 
-        try (ProductsDAO productsDAO = new ProductsDAO(jdbcUrl);
-             CategoriesDAO categoriesDAO = new CategoriesDAO(jdbcUrl);
-
-             DataSourceWrapper dsWrapper = DataSourceWrapperFactory.getWrapper(jdbcUrl, dataSourceType);
+        try (DataSourceWrapper dsWrapper = DataSourceWrapperFactory.getWrapper(jdbcUrl, dataSourceType);
+             ProductsDAO productsDAO = new ProductsDAO(dsWrapper.getDataSource());
+             CategoriesDAO categoriesDAO = new CategoriesDAO(dsWrapper.getDataSource());
              BrandsDAO brandsDAO = new BrandsDAO(dsWrapper.getDataSource())) {
-
-            categoriesDAO.init();
-            brandsDAO.init();
-            productsDAO.init();
 
             categoriesDAO.createTable();
             brandsDAO.createTable();

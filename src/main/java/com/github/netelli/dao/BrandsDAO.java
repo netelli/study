@@ -22,16 +22,6 @@ public class BrandsDAO extends BaseDAO<Brand> {
     }
 
     @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void close() throws Exception {
-
-    }
-
-    @Override
     public void createTable() throws SQLException {
         logger.info("Create table: 'brands'");
         try (Connection connection = dataSource.getConnection();

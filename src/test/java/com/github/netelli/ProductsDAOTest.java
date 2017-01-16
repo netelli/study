@@ -27,18 +27,15 @@ public class ProductsDAOTest {
     @Before
     public void setUp() throws Exception {
         String jdbcUrl = "jdbc:h2:mem:test";
+        dataSourceWrapper = DataSourceWrapperFactory.getWrapper(jdbcUrl, DataSourceType.H2);
 
-        categoriesDAO = new CategoriesDAO(jdbcUrl);
-        categoriesDAO.init();
+        categoriesDAO = new CategoriesDAO(dataSourceWrapper.getDataSource());
         categoriesDAO.createTable();
 
-        dataSourceWrapper = DataSourceWrapperFactory.getWrapper(jdbcUrl, DataSourceType.H2);
         brandsDAO = new BrandsDAO(dataSourceWrapper.getDataSource());
-        brandsDAO.init();
         brandsDAO.createTable();
 
-        productsDAO = new ProductsDAO(jdbcUrl);
-        productsDAO.init();
+        productsDAO = new ProductsDAO(dataSourceWrapper.getDataSource());
         productsDAO.createTable();
     }
 
@@ -92,12 +89,5 @@ public class ProductsDAOTest {
 
         List<Product> products = productsDAO.getAll();
         assertEquals(1, products.size());
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void testInit_WithError() throws Exception {
-        try (ProductsDAO productsDAO = new ProductsDAO("execute exception")) {
-            productsDAO.init();
-        }
     }
 }
