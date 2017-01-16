@@ -1,7 +1,9 @@
-package com.github.netelli;
+package com.github.netelli.dao;
 
 import com.github.netelli.model.Brand;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,16 +14,20 @@ import java.util.List;
  * Created by nataliiaku on 1/5/2017.
  */
 public class BrandsDAO extends BaseDAO<Brand> {
-    public BrandsDAO(String jdbcUrl) {
-        this.jdbcUrl = jdbcUrl;
+
+    private DataSource dataSource;
+
+    public BrandsDAO(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
     public void createTable() throws SQLException {
         logger.info("Create table: 'brands'");
-        try (Statement statement = connection.createStatement()) {
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
 
-            statement.execute("create table brands(" +
+            statement.execute("create table if not exists brands(" +
                     "id integer primary key auto_increment, " +
                     "title varchar(100));");
         }
@@ -30,7 +36,8 @@ public class BrandsDAO extends BaseDAO<Brand> {
     @Override
     public void insertData() throws SQLException {
         logger.info("Insert data to table 'brands'");
-        try (Statement statement = connection.createStatement()) {
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
             statement.execute("insert into brands(title) values ('Versace'), ('Dolce gabbana')");
         }
     }
@@ -38,7 +45,8 @@ public class BrandsDAO extends BaseDAO<Brand> {
     @Override
     public List<Brand> getAll() throws SQLException {
         logger.info("Get data from 'brands'");
-        try (Statement statement = connection.createStatement();
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery("select * from brands")) {
             List<Brand> brands = new ArrayList<>();
             while (rs.next()) {

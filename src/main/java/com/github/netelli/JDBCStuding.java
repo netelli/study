@@ -1,8 +1,10 @@
 package com.github.netelli;
 
-import com.github.netelli.model.Brand;
-import com.github.netelli.model.Category;
-import com.github.netelli.model.Product;
+import com.github.netelli.dao.BrandsDAO;
+import com.github.netelli.dao.CategoriesDAO;
+import com.github.netelli.dao.ProductsDAO;
+import com.github.netelli.model.*;
+import com.google.common.base.Preconditions;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -12,14 +14,19 @@ public class JDBCStuding {
 
     public static void main(String[] args) throws Exception {
         logger.info("Start working");
-        String jdbcUrl = "jdbc:h2:mem:test";
-        try (ProductsDAO productsDAO = new ProductsDAO(jdbcUrl);
-             CategoriesDAO categoriesDAO = new CategoriesDAO(jdbcUrl);
-             BrandsDAO brandsDAO = new BrandsDAO(jdbcUrl)) {
+        Preconditions.checkArgument(args.length == 1, "expect data source type as an argument");
 
-            categoriesDAO.init();
-            brandsDAO.init();
-            productsDAO.init();
+        String jdbcUrl = "jdbc:h2:mem:test";
+
+        String dsType = args[0];
+        DataSourceType dataSourceType = DataSourceType.valueOf(dsType);
+
+
+        try (DataSourceWrapper dsWrapper = DataSourceWrapperFactory.getWrapper(jdbcUrl, dataSourceType)) {
+
+            ProductsDAO productsDAO = new ProductsDAO(dsWrapper.getDataSource());
+            CategoriesDAO categoriesDAO = new CategoriesDAO(dsWrapper.getDataSource());
+            BrandsDAO brandsDAO = new BrandsDAO(dsWrapper.getDataSource());
 
             categoriesDAO.createTable();
             brandsDAO.createTable();

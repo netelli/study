@@ -1,5 +1,11 @@
 package com.github.netelli;
 
+import com.github.netelli.dao.BrandsDAO;
+import com.github.netelli.dao.CategoriesDAO;
+import com.github.netelli.dao.ProductsDAO;
+import com.github.netelli.model.DataSourceWrapper;
+import com.github.netelli.model.DataSourceWrapperFactory;
+import com.github.netelli.model.DataSourceType;
 import com.github.netelli.model.Product;
 import org.junit.After;
 import org.junit.Before;
@@ -16,29 +22,26 @@ public class ProductsDAOTest {
     private ProductsDAO productsDAO;
     private CategoriesDAO categoriesDAO;
     private BrandsDAO brandsDAO;
+    private DataSourceWrapper dataSourceWrapper;
 
     @Before
     public void setUp() throws Exception {
         String jdbcUrl = "jdbc:h2:mem:test";
+        dataSourceWrapper = DataSourceWrapperFactory.getWrapper(jdbcUrl, DataSourceType.H2);
 
-        categoriesDAO = new CategoriesDAO(jdbcUrl);
-        categoriesDAO.init();
+        categoriesDAO = new CategoriesDAO(dataSourceWrapper.getDataSource());
         categoriesDAO.createTable();
 
-        brandsDAO = new BrandsDAO(jdbcUrl);
-        brandsDAO.init();
+        brandsDAO = new BrandsDAO(dataSourceWrapper.getDataSource());
         brandsDAO.createTable();
 
-        productsDAO = new ProductsDAO(jdbcUrl);
-        productsDAO.init();
+        productsDAO = new ProductsDAO(dataSourceWrapper.getDataSource());
         productsDAO.createTable();
     }
 
     @After
     public void tearDown() throws Exception {
-        categoriesDAO.close();
-        brandsDAO.close();
-        productsDAO.close();
+        dataSourceWrapper.close();
     }
 
     @Test
@@ -82,12 +85,5 @@ public class ProductsDAOTest {
 
         List<Product> products = productsDAO.getAll();
         assertEquals(1, products.size());
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void testInit_WithError() throws Exception {
-        try (ProductsDAO productsDAO = new ProductsDAO("execute exception")) {
-            productsDAO.init();
-        }
     }
 }
