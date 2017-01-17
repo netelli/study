@@ -1,5 +1,6 @@
 package com.github.netelli.model;
 
+import com.github.netelli.model.config.ConfigParser;
 import com.google.common.base.Preconditions;
 import org.h2.jdbcx.JdbcConnectionPool;
 
@@ -11,7 +12,10 @@ public class DataSourceWrapperFactory {
 
     }
 
-    public static DataSourceWrapper getWrapper(String jdbcUrl, DataSourceType type) {
+    public static DataSourceWrapper getWrapper(ConfigParser configParser) {
+        String jdbcUrl = configParser.getJdbcUrl();
+        DataSourceType type = configParser.getDsType();
+
         Preconditions.checkNotNull(jdbcUrl);
         Preconditions.checkNotNull(type);
 

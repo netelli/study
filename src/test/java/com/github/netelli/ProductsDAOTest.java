@@ -7,6 +7,7 @@ import com.github.netelli.model.DataSourceWrapper;
 import com.github.netelli.model.DataSourceWrapperFactory;
 import com.github.netelli.model.DataSourceType;
 import com.github.netelli.model.Product;
+import com.github.netelli.model.config.ConfigParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +27,8 @@ public class ProductsDAOTest {
 
     @Before
     public void setUp() throws Exception {
-        String jdbcUrl = "jdbc:h2:mem:test";
-        dataSourceWrapper = DataSourceWrapperFactory.getWrapper(jdbcUrl, DataSourceType.H2);
+        ConfigParser config = ConfigParser.getConfigParser();
+        dataSourceWrapper = DataSourceWrapperFactory.getWrapper(config);
 
         categoriesDAO = new CategoriesDAO(dataSourceWrapper.getDataSource());
         categoriesDAO.createTable();
