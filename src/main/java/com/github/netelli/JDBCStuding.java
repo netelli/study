@@ -4,6 +4,7 @@ import com.github.netelli.dao.BrandsDAO;
 import com.github.netelli.dao.CategoriesDAO;
 import com.github.netelli.dao.ProductsDAO;
 import com.github.netelli.model.*;
+import com.github.netelli.model.config.ConfigParser;
 import com.google.common.base.Preconditions;
 import org.apache.log4j.Logger;
 
@@ -16,13 +17,8 @@ public class JDBCStuding {
         logger.info("Start working");
         Preconditions.checkArgument(args.length == 1, "expect data source type as an argument");
 
-        String jdbcUrl = "jdbc:h2:mem:test";
-
-        String dsType = args[0];
-        DataSourceType dataSourceType = DataSourceType.valueOf(dsType);
-
-
-        try (DataSourceWrapper dsWrapper = DataSourceWrapperFactory.getWrapper(jdbcUrl, dataSourceType)) {
+        ConfigParser configParser = ConfigParser.getConfigParser();
+        try (DataSourceWrapper dsWrapper = DataSourceWrapperFactory.getWrapper(configParser)) {
 
             ProductsDAO productsDAO = new ProductsDAO(dsWrapper.getDataSource());
             CategoriesDAO categoriesDAO = new CategoriesDAO(dsWrapper.getDataSource());
