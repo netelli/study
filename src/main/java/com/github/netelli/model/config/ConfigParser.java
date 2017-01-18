@@ -8,7 +8,7 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.io.File;
 
-public class ConfigParser {
+public class ConfigParser implements Parser {
 
     private static ConfigParser instance;
     private String jdbcUrl;
@@ -38,10 +38,12 @@ public class ConfigParser {
         this.dsType = DataSourceType.valueOf(dsType.toUpperCase());
     }
 
+    @Override
     public String getJdbcUrl() {
         return jdbcUrl;
     }
 
+    @Override
     public DataSourceType getDsType() {
         return dsType;
     }
