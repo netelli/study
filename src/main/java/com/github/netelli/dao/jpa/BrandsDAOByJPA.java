@@ -16,13 +16,10 @@ public class BrandsDAOByJPA extends BrandsDAO {
     }
 
     @Override
-    public void createTable() throws SQLException {
-
-    }
-
-    @Override
-    public void insertData() throws SQLException {
-
+    public void insert(Brand brand) throws SQLException {
+        em.getTransaction().begin();
+        em.persist(brand);
+        em.getTransaction().commit();
     }
 
     @Override

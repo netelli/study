@@ -1,6 +1,5 @@
 package com.github.netelli.dao;
 
-import com.github.netelli.dao.jdbc.ProductsDAO;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
@@ -8,11 +7,9 @@ import java.util.List;
 
 public interface BaseDAO<T> {
 
-    Logger logger = Logger.getLogger(ProductsDAO.class);
+    Logger logger = Logger.getLogger(BaseDAO.class);
 
-    void createTable() throws SQLException;
-
-    void insertData() throws SQLException;
+    void insert(T type) throws SQLException;
 
     List<T> getAll() throws SQLException;
 }

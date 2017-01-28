@@ -30,12 +30,13 @@ public class JDBCStuding {
             BrandsDAO brandsDAO = new BrandsDAOByJPA(em);
 
 //            categoriesDAO.createTable();
-            brandsDAO.createTable();
 //            productsDAO.createTable();
 
-//            categoriesDAO.insertData();
-            brandsDAO.insertData();
-//            productsDAO.insertData();
+//            categoriesDAO.insert();
+            Brand brand = new Brand();
+            brand.setTitle("Zhytomyrski shkarpetky");
+            brandsDAO.insert(brand);
+//            productsDAO.insert();
 
 //            List<Category> categories = categoriesDAO.getAll();
 //            categories.forEach(logger::info);

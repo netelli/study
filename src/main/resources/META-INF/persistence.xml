@@ -8,7 +8,7 @@ http://xmlns.jcp.org/xml/ns/persistence_2_1.xsd">
     <persistence-unit name="manager1" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
-            <property name="hibernate.hbm2ddl.import_files" value="ddl/insert_brand.sql"/>
+            <!--<property name="hibernate.hbm2ddl.import_files" value="ddl/insert_brand.sql"/>-->
 
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="hibernate.format_sql" value="true"/>
