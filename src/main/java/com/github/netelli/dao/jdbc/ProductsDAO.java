@@ -1,13 +1,14 @@
-package com.github.netelli.dao;
+package com.github.netelli.dao.jdbc;
 
-import com.github.netelli.model.Product;
+import com.github.netelli.dao.BaseDAO;
+import com.github.netelli.model.pojo.Product;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsDAO extends BaseDAO<Product> {
+public class ProductsDAO implements BaseDAO<Product> {
     private DataSource dataSource;
 
     public ProductsDAO(DataSource dataSource) {

@@ -1,4 +1,4 @@
-package com.github.netelli.model;
+package com.github.netelli.model.pojo;
 
 /**
  * Created by nataliiaku on 1/5/2017.

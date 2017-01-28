@@ -1,12 +1,13 @@
 package com.github.netelli;
 
-import com.github.netelli.dao.BrandsDAO;
-import com.github.netelli.dao.CategoriesDAO;
-import com.github.netelli.dao.ProductsDAO;
+import com.github.netelli.dao.PersistenceType;
+import com.github.netelli.dao.jdbc.BrandsDAOByJDBC;
+import com.github.netelli.dao.jdbc.CategoriesDAO;
+import com.github.netelli.dao.jdbc.ProductsDAO;
 import com.github.netelli.model.DataSourceType;
 import com.github.netelli.model.DataSourceWrapper;
 import com.github.netelli.model.DataSourceWrapperFactory;
-import com.github.netelli.model.Product;
+import com.github.netelli.model.pojo.Product;
 import com.github.netelli.model.config.Parser;
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +24,7 @@ public class ProductsDAOTest {
 
     private ProductsDAO productsDAO;
     private CategoriesDAO categoriesDAO;
-    private BrandsDAO brandsDAO;
+    private BrandsDAOByJDBC brandsDAO;
     private DataSourceWrapper dataSourceWrapper;
 
     @Before
@@ -33,12 +34,12 @@ public class ProductsDAOTest {
         Parser config = Mockito.mock(Parser.class);
         Mockito.when(config.getJdbcUrl()).thenReturn("jdbc:h2:mem:test");
         Mockito.when(config.getDsType()).thenReturn(DataSourceType.H2);
-        dataSourceWrapper = DataSourceWrapperFactory.getWrapper(config);
+        dataSourceWrapper = DataSourceWrapperFactory.getWrapper(config, PersistenceType.JDBC);
 
         categoriesDAO = new CategoriesDAO(dataSourceWrapper.getDataSource());
         categoriesDAO.createTable();
 
-        brandsDAO = new BrandsDAO(dataSourceWrapper.getDataSource());
+        brandsDAO = new BrandsDAOByJDBC(dataSourceWrapper.getDataSource());
         brandsDAO.createTable();
 
         productsDAO = new ProductsDAO(dataSourceWrapper.getDataSource());

@@ -1,12 +1,16 @@
 package com.github.netelli;
 
-import com.github.netelli.dao.BrandsDAO;
-import com.github.netelli.dao.CategoriesDAO;
-import com.github.netelli.dao.ProductsDAO;
+import com.github.netelli.dao.BaseDAO;
+import com.github.netelli.dao.DaoFactory;
+import com.github.netelli.dao.PersistenceType;
+import com.github.netelli.dao.jdbc.CategoriesDAO;
+import com.github.netelli.dao.jdbc.ProductsDAO;
 import com.github.netelli.model.*;
 import com.github.netelli.model.config.ConfigParser;
 import com.github.netelli.model.config.Parser;
-import com.google.common.base.Preconditions;
+import com.github.netelli.model.pojo.Brand;
+import com.github.netelli.model.pojo.Category;
+import com.github.netelli.model.pojo.Product;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -16,39 +20,42 @@ public class JDBCStuding {
 
     public static void main(String[] args) throws Exception {
         logger.info("Start working");
-        Preconditions.checkArgument(args.length == 1, "expect data source type as an argument");
 
         Parser configParser = ConfigParser.getConfigParser();
-        try (DataSourceWrapper dsWrapper = DataSourceWrapperFactory.getWrapper(configParser)) {
+        PersistenceType persistenceType = PersistenceType.JPA;
 
-            ProductsDAO productsDAO = new ProductsDAO(dsWrapper.getDataSource());
-            CategoriesDAO categoriesDAO = new CategoriesDAO(dsWrapper.getDataSource());
-            BrandsDAO brandsDAO = new BrandsDAO(dsWrapper.getDataSource());
+        DataSourceWrapper dsWrapper = DataSourceWrapperFactory.getWrapper(configParser, persistenceType);
+        try (DaoFactory daoFactory = new DaoFactory(dsWrapper, persistenceType)) {
 
-            categoriesDAO.createTable();
+            BaseDAO brandsDAO = daoFactory.getBrandsDao();
+//            ProductsDAO productsDAO = new ProductsDAO(dsWrapper.getDataSource());
+//            CategoriesDAO categoriesDAO = new CategoriesDAO(dsWrapper.getDataSource());
+//            BrandsDAOByJDBC brandsDAO = new BrandsDAOByJDBC(dsWrapper.getDataSource());
+
+//            categoriesDAO.createTable();
             brandsDAO.createTable();
-            productsDAO.createTable();
+//            productsDAO.createTable();
 
-            categoriesDAO.insertData();
+//            categoriesDAO.insertData();
             brandsDAO.insertData();
-            productsDAO.insertData();
+//            productsDAO.insertData();
 
-            List<Category> categories = categoriesDAO.getAll();
-            categories.forEach(logger::info);
+//            List<Category> categories = categoriesDAO.getAll();
+//            categories.forEach(logger::info);
 
             List<Brand> brands = brandsDAO.getAll();
             brands.forEach(logger::info);
 
-            List<Product> products = productsDAO.getAll();
-            products.forEach(logger::info);
-
-            productsDAO.updateBrandId(2, 2);
-            products = productsDAO.getAll();
-            products.forEach(logger::info);
-
-            productsDAO.deleteByBrandId(2);
-            products = productsDAO.getAll();
-            products.forEach(logger::info);
+//            List<Product> products = productsDAO.getAll();
+//            products.forEach(logger::info);
+//
+//            productsDAO.updateBrandId(2, 2);
+//            products = productsDAO.getAll();
+//            products.forEach(logger::info);
+//
+//            productsDAO.deleteByBrandId(2);
+//            products = productsDAO.getAll();
+//            products.forEach(logger::info);
         }
         logger.info("Stop working");
     }

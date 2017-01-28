@@ -1,6 +1,7 @@
-package com.github.netelli.dao;
+package com.github.netelli.dao.jdbc;
 
-import com.github.netelli.model.Brand;
+import com.github.netelli.dao.BaseDAO;
+import com.github.netelli.model.pojo.Category;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -10,24 +11,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by nataliiaku on 1/5/2017.
- */
-public class BrandsDAO extends BaseDAO<Brand> {
-
+public class CategoriesDAO implements BaseDAO<Category> {
     private DataSource dataSource;
 
-    public BrandsDAO(DataSource dataSource) {
+    public CategoriesDAO(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
     public void createTable() throws SQLException {
-        logger.info("Create table: 'brands'");
+        logger.info("Create table: 'categories'");
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
-
-            statement.execute("create table if not exists brands(" +
+            statement.execute("create table if not exists categories(" +
                     "id integer primary key auto_increment, " +
                     "title varchar(100));");
         }
@@ -35,28 +31,28 @@ public class BrandsDAO extends BaseDAO<Brand> {
 
     @Override
     public void insertData() throws SQLException {
-        logger.info("Insert data to table 'brands'");
+        logger.info("Insert data to table 'categories'");
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
-            statement.execute("insert into brands(title) values ('Versace'), ('Dolce gabbana')");
+            statement.execute("insert into categories(title) values ('Skirts'), ('Pants')");
         }
     }
 
     @Override
-    public List<Brand> getAll() throws SQLException {
-        logger.info("Get data from 'brands'");
+    public List<Category> getAll() throws SQLException {
+        logger.info("Get data from 'categories'");
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery("select * from brands")) {
-            List<Brand> brands = new ArrayList<>();
+             ResultSet rs = statement.executeQuery("select * from categories")) {
+            List<Category> categories = new ArrayList<>();
             while (rs.next()) {
-                Brand brand = new Brand();
-                brand.setTitle(rs.getString("title"));
-                brand.setId(rs.getInt("id"));
+                Category category = new Category();
+                category.setTitle(rs.getString("title"));
+                category.setId(rs.getInt("id"));
 
-                brands.add(brand);
+                categories.add(category);
             }
-            return brands;
+            return categories;
         }
     }
 }

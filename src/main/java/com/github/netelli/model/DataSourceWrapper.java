@@ -1,8 +1,15 @@
 package com.github.netelli.model;
 
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
 public interface DataSourceWrapper extends AutoCloseable {
 
-    DataSource getDataSource();
+    default DataSource getDataSource() {
+        return null;
+    }
+
+    default EntityManager getEntityManger() {
+        return null;
+    }
 }

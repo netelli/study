@@ -1,4 +1,4 @@
-package com.github.netelli.model;
+package com.github.netelli.model.pojo;
 
 public class Product {
     private String title;

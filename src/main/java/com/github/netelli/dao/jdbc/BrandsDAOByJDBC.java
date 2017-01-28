@@ -1,6 +1,7 @@
-package com.github.netelli.dao;
+package com.github.netelli.dao.jdbc;
 
-import com.github.netelli.model.Category;
+import com.github.netelli.dao.BaseDAO;
+import com.github.netelli.model.pojo.Brand;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -10,19 +11,24 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriesDAO extends BaseDAO<Category> {
+/**
+ * Created by nataliiaku on 1/5/2017.
+ */
+public class BrandsDAOByJDBC implements BaseDAO<Brand> {
+
     private DataSource dataSource;
 
-    public CategoriesDAO(DataSource dataSource) {
+    public BrandsDAOByJDBC(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
     public void createTable() throws SQLException {
-        logger.info("Create table: 'categories'");
+        logger.info("Create table: 'brands'");
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
-            statement.execute("create table if not exists categories(" +
+
+            statement.execute("create table if not exists brands(" +
                     "id integer primary key auto_increment, " +
                     "title varchar(100));");
         }
@@ -30,28 +36,28 @@ public class CategoriesDAO extends BaseDAO<Category> {
 
     @Override
     public void insertData() throws SQLException {
-        logger.info("Insert data to table 'categories'");
+        logger.info("Insert data to table 'brands'");
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
-            statement.execute("insert into categories(title) values ('Skirts'), ('Pants')");
+            statement.execute("insert into brands(title) values ('Versace'), ('Dolce gabbana')");
         }
     }
 
     @Override
-    public List<Category> getAll() throws SQLException {
-        logger.info("Get data from 'categories'");
+    public List<Brand> getAll() throws SQLException {
+        logger.info("Get data from 'brands'");
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery("select * from categories")) {
-            List<Category> categories = new ArrayList<>();
+             ResultSet rs = statement.executeQuery("select * from brands")) {
+            List<Brand> brands = new ArrayList<>();
             while (rs.next()) {
-                Category category = new Category();
-                category.setTitle(rs.getString("title"));
-                category.setId(rs.getInt("id"));
+                Brand brand = new Brand();
+                brand.setTitle(rs.getString("title"));
+                brand.setId(rs.getInt("id"));
 
-                categories.add(category);
+                brands.add(brand);
             }
-            return categories;
+            return brands;
         }
     }
 }
