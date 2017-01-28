@@ -1,4 +1,4 @@
-package com.github.netelli.model;
+package com.github.netelli.model.jdbc;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;

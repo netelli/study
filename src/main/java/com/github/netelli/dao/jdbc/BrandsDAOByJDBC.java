@@ -1,6 +1,6 @@
 package com.github.netelli.dao.jdbc;
 
-import com.github.netelli.dao.BaseDAO;
+import com.github.netelli.dao.BrandsDAO;
 import com.github.netelli.model.pojo.Brand;
 
 import javax.sql.DataSource;
@@ -11,10 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by nataliiaku on 1/5/2017.
- */
-public class BrandsDAOByJDBC implements BaseDAO<Brand> {
+public class BrandsDAOByJDBC extends BrandsDAO {
 
     private DataSource dataSource;
 

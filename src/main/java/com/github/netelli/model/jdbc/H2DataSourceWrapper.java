@@ -1,4 +1,4 @@
-package com.github.netelli.model;
+package com.github.netelli.model.jdbc;
 
 import org.h2.jdbcx.JdbcConnectionPool;
 

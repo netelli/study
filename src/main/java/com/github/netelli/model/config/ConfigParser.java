@@ -1,6 +1,6 @@
 package com.github.netelli.model.config;
 
-import com.github.netelli.model.DataSourceType;
+import com.github.netelli.model.jdbc.DataSourceType;
 import com.google.common.base.Preconditions;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;

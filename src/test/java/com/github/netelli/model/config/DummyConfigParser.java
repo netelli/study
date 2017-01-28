@@ -1,7 +1,6 @@
 package com.github.netelli.model.config;
 
-import com.github.netelli.model.DataSourceType;
-import com.github.netelli.model.config.Parser;
+import com.github.netelli.model.jdbc.DataSourceType;
 
 /**
  * Simplest approach to stubbing/mocking.

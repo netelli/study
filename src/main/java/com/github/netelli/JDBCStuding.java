@@ -1,18 +1,15 @@
 package com.github.netelli;
 
-import com.github.netelli.dao.BaseDAO;
-import com.github.netelli.dao.DaoFactory;
-import com.github.netelli.dao.PersistenceType;
-import com.github.netelli.dao.jdbc.CategoriesDAO;
-import com.github.netelli.dao.jdbc.ProductsDAO;
-import com.github.netelli.model.*;
+import com.github.netelli.dao.BrandsDAO;
+import com.github.netelli.dao.jpa.BrandsDAOByJPA;
 import com.github.netelli.model.config.ConfigParser;
 import com.github.netelli.model.config.Parser;
 import com.github.netelli.model.pojo.Brand;
-import com.github.netelli.model.pojo.Category;
-import com.github.netelli.model.pojo.Product;
 import org.apache.log4j.Logger;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.List;
 
 public class JDBCStuding {
@@ -22,15 +19,15 @@ public class JDBCStuding {
         logger.info("Start working");
 
         Parser configParser = ConfigParser.getConfigParser();
-        PersistenceType persistenceType = PersistenceType.JPA;
 
-        DataSourceWrapper dsWrapper = DataSourceWrapperFactory.getWrapper(configParser, persistenceType);
-        try (DaoFactory daoFactory = new DaoFactory(dsWrapper, persistenceType)) {
+        // Use persistence.xml configuration
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("manager1");
+        EntityManager em = emf.createEntityManager(); // Retrieve an application managed entity manager
+        try {
 
-            BaseDAO brandsDAO = daoFactory.getBrandsDao();
 //            ProductsDAO productsDAO = new ProductsDAO(dsWrapper.getDataSource());
 //            CategoriesDAO categoriesDAO = new CategoriesDAO(dsWrapper.getDataSource());
-//            BrandsDAOByJDBC brandsDAO = new BrandsDAOByJDBC(dsWrapper.getDataSource());
+            BrandsDAO brandsDAO = new BrandsDAOByJPA(em);
 
 //            categoriesDAO.createTable();
             brandsDAO.createTable();
@@ -56,6 +53,9 @@ public class JDBCStuding {
 //            productsDAO.deleteByBrandId(2);
 //            products = productsDAO.getAll();
 //            products.forEach(logger::info);
+        } finally {
+            em.close();
+            emf.close();
         }
         logger.info("Stop working");
     }

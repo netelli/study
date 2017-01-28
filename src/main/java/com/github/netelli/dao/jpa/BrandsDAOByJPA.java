@@ -1,15 +1,13 @@
 package com.github.netelli.dao.jpa;
 
-import com.github.netelli.dao.BaseDAO;
+import com.github.netelli.dao.BrandsDAO;
 import com.github.netelli.model.pojo.Brand;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.sql.SQLException;
 import java.util.List;
 
-public class BrandsDAOByJPA implements BaseDAO<Brand> {
+public class BrandsDAOByJPA extends BrandsDAO {
 
     private EntityManager em;
 

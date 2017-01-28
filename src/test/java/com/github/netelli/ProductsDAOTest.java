@@ -1,18 +1,15 @@
 package com.github.netelli;
 
-import com.github.netelli.dao.PersistenceType;
 import com.github.netelli.dao.jdbc.BrandsDAOByJDBC;
 import com.github.netelli.dao.jdbc.CategoriesDAO;
 import com.github.netelli.dao.jdbc.ProductsDAO;
-import com.github.netelli.model.DataSourceType;
-import com.github.netelli.model.DataSourceWrapper;
-import com.github.netelli.model.DataSourceWrapperFactory;
+import com.github.netelli.model.jdbc.DataSourceWrapper;
+import com.github.netelli.model.jdbc.H2DataSourceWrapper;
 import com.github.netelli.model.pojo.Product;
-import com.github.netelli.model.config.Parser;
+import org.h2.jdbcx.JdbcConnectionPool;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.Comparator;
 import java.util.List;
@@ -29,12 +26,8 @@ public class ProductsDAOTest {
 
     @Before
     public void setUp() throws Exception {
-        //left here as example of simplest approach to stubbing/mocking
-        //Parser config = new DummyConfigParser();
-        Parser config = Mockito.mock(Parser.class);
-        Mockito.when(config.getJdbcUrl()).thenReturn("jdbc:h2:mem:test");
-        Mockito.when(config.getDsType()).thenReturn(DataSourceType.H2);
-        dataSourceWrapper = DataSourceWrapperFactory.getWrapper(config, PersistenceType.JDBC);
+        JdbcConnectionPool connectionPool = JdbcConnectionPool.create("jdbc:h2:mem:test", "", "");
+        dataSourceWrapper = new H2DataSourceWrapper(connectionPool);
 
         categoriesDAO = new CategoriesDAO(dataSourceWrapper.getDataSource());
         categoriesDAO.createTable();
