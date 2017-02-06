@@ -1,10 +1,13 @@
 package com.github.netelli;
 
 import com.github.netelli.dao.BrandsDAO;
+import com.github.netelli.dao.ProductsDAO;
 import com.github.netelli.dao.jpa.BrandsDAOByJPA;
+import com.github.netelli.dao.jpa.ProductsDAOByJPA;
 import com.github.netelli.model.config.ConfigParser;
 import com.github.netelli.model.config.Parser;
 import com.github.netelli.model.pojo.Brand;
+import com.github.netelli.model.pojo.Product;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -25,27 +28,29 @@ public class JDBCStuding {
         EntityManager em = emf.createEntityManager(); // Retrieve an application managed entity manager
         try {
 
-//            ProductsDAO productsDAO = new ProductsDAO(dsWrapper.getDataSource());
+            ProductsDAO productsDAO = new ProductsDAOByJPA(em);
 //            CategoriesDAO categoriesDAO = new CategoriesDAO(dsWrapper.getDataSource());
             BrandsDAO brandsDAO = new BrandsDAOByJPA(em);
 
-//            categoriesDAO.createTable();
-//            productsDAO.createTable();
-
-//            categoriesDAO.insert();
             Brand brand = new Brand();
             brand.setTitle("Zhytomyrski shkarpetky");
             brandsDAO.insert(brand);
-//            productsDAO.insert();
+
+            Product product = new Product();
+            product.setTitle("Dress");
+            product.setBrand(brand);
+            productsDAO.insert(product);
 
 //            List<Category> categories = categoriesDAO.getAll();
 //            categories.forEach(logger::info);
 
+            logger.info(">>> brands:");
             List<Brand> brands = brandsDAO.getAll();
             brands.forEach(logger::info);
 
-//            List<Product> products = productsDAO.getAll();
-//            products.forEach(logger::info);
+            logger.info(">>> products:");
+            List<Product> products = productsDAO.getAll();
+            products.forEach(logger::info);
 //
 //            productsDAO.updateBrandId(2, 2);
 //            products = productsDAO.getAll();
