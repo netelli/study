@@ -1,12 +1,15 @@
 package com.github.netelli;
 
 import com.github.netelli.dao.BrandsDAO;
+import com.github.netelli.dao.CategoriesDAO;
 import com.github.netelli.dao.ProductsDAO;
 import com.github.netelli.dao.jpa.BrandsDAOByJPA;
+import com.github.netelli.dao.jpa.CategoriesDAOByJPA;
 import com.github.netelli.dao.jpa.ProductsDAOByJPA;
 import com.github.netelli.model.config.ConfigParser;
 import com.github.netelli.model.config.Parser;
 import com.github.netelli.model.pojo.Brand;
+import com.github.netelli.model.pojo.Category;
 import com.github.netelli.model.pojo.Product;
 import org.apache.log4j.Logger;
 
@@ -29,24 +32,30 @@ public class JDBCStuding {
         try {
 
             ProductsDAO productsDAO = new ProductsDAOByJPA(em);
-//            CategoriesDAO categoriesDAO = new CategoriesDAO(dsWrapper.getDataSource());
+            CategoriesDAO categoriesDAO = new CategoriesDAOByJPA(em);
             BrandsDAO brandsDAO = new BrandsDAOByJPA(em);
 
             Brand brand = new Brand();
             brand.setTitle("Zhytomyrski shkarpetky");
             brandsDAO.insert(brand);
 
-            Product product = new Product();
-            product.setTitle("Dress");
-            product.setBrand(brand);
-            productsDAO.insert(product);
+            Category category = new Category();
+            category.setTitle("Dress");
+            categoriesDAO.insert(category);
 
-//            List<Category> categories = categoriesDAO.getAll();
-//            categories.forEach(logger::info);
+            Product product = new Product();
+            product.setTitle("Mini dress");
+            product.setBrand(brand);
+            product.setCategory(category);
+            productsDAO.insert(product);
 
             logger.info(">>> brands:");
             List<Brand> brands = brandsDAO.getAll();
             brands.forEach(logger::info);
+
+            logger.info(">>> categories:");
+            List<Category> categories = categoriesDAO.getAll();
+            categories.forEach(logger::info);
 
             logger.info(">>> products:");
             List<Product> products = productsDAO.getAll();

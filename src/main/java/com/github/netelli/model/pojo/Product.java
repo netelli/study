@@ -10,8 +10,8 @@ public class Product {
     @Column(name = "title", length = 100)
     private String title;
 
-//    @Column(name = "categoryId")
-//    private int categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "id", nullable = false)
@@ -30,14 +30,13 @@ public class Product {
         this.title = title;
     }
 
-//    public int getCategoryId() {
-//        return categoryId;
-//    }
-//
-//    public void setCategoryId(int categoryId) {
-//        this.categoryId = categoryId;
-//    }
+    public Category getCategory() {
+        return category;
+    }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public Brand getBrand() {
         return brand;
@@ -59,7 +58,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "title='" + title + '\'' +
-//                ", categoryId=" + categoryId +
+                ", category=" + category +
                 ", brand=" + brand.toString() +
                 ", id=" + id +
                 '}';
