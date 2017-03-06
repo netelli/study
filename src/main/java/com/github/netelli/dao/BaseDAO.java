@@ -12,4 +12,6 @@ public interface BaseDAO<T> {
     void insert(T type) throws SQLException;
 
     List<T> getAll() throws SQLException;
+
+    List<T> getById(int id);
 }

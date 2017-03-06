@@ -26,4 +26,10 @@ public class ProductsDAOByJPA extends ProductsDAO {
     public List<Product> getAll() throws SQLException {
         return em.createQuery("SELECT p FROM Product p", Product.class).getResultList();
     }
+
+    @Override
+    public List<Product> getById(int id) {
+        String hql = "FROM Product p WHERE p.id = " + id;
+        return em.createQuery(hql).getResultList();
+    }
 }

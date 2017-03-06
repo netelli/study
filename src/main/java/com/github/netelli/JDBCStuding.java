@@ -39,6 +39,9 @@ public class JDBCStuding {
             brand.setTitle("Zhytomyrski shkarpetky");
             brandsDAO.insert(brand);
 
+            brand.setTitle("Chloe");
+            brandsDAO.insert(brand);
+
             Category category = new Category();
             category.setTitle("Dress");
             categoriesDAO.insert(category);
@@ -60,6 +63,9 @@ public class JDBCStuding {
             logger.info(">>> products:");
             List<Product> products = productsDAO.getAll();
             products.forEach(logger::info);
+
+//            products = productsDAO.getById(2);
+//            products.get(0).setBrand();
 //
 //            productsDAO.updateBrandId(2, 2);
 //            products = productsDAO.getAll();

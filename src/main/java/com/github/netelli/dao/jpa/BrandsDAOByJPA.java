@@ -26,4 +26,9 @@ public class BrandsDAOByJPA extends BrandsDAO {
     public List<Brand> getAll() throws SQLException {
         return em.createQuery("SELECT b FROM Brand b", Brand.class).getResultList();
     }
+
+    @Override
+    public List<Brand> getById(int id) {
+        return null;
+    }
 }
