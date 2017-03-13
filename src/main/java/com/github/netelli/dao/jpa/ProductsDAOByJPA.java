@@ -1,6 +1,7 @@
 package com.github.netelli.dao.jpa;
 
 import com.github.netelli.dao.ProductsDAO;
+import com.github.netelli.model.pojo.Brand;
 import com.github.netelli.model.pojo.Product;
 
 import javax.persistence.EntityManager;
@@ -28,8 +29,10 @@ public class ProductsDAOByJPA extends ProductsDAO {
     }
 
     @Override
-    public List<Product> getById(int id) {
-        String hql = "FROM Product p WHERE p.id = " + id;
-        return em.createQuery(hql).getResultList();
+    public void updateBrandId(int productId, Brand brand) {
+        Product product = em.find(Product.class, productId);
+        em.getTransaction().begin();
+        product.setBrand(brand);
+        em.getTransaction().commit();
     }
 }

@@ -1,9 +1,15 @@
 package com.github.netelli.model.pojo;
 
-/**
- * Created by nataliiaku on 1/5/2017.
- */
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Entity
+@Table(name = "category")
 public class Category {
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     private int id;
     private String title;
 

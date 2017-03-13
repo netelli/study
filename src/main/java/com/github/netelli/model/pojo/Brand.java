@@ -15,18 +15,6 @@ public class Brand {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private int id;
-//
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id", targetEntity = Product.class)
-//    private Set<Product> productSet = new HashSet<>();
-//
-//    public Set<Product> getProductSet() {
-//        return productSet;
-//    }
-//
-//    public void setProductSet(Set<Product> productSet) {
-//        this.productSet = productSet;
-//    }
-
 
     public String getTitle() {
         return title;

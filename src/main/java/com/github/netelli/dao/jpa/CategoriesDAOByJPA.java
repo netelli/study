@@ -26,9 +26,4 @@ public class CategoriesDAOByJPA extends CategoriesDAO {
     public List<Category> getAll() throws SQLException {
         return em.createQuery("SELECT b FROM Category b", Category.class).getResultList();
     }
-
-    @Override
-    public List<Category> getById(int id) {
-        return null;
-    }
 }
