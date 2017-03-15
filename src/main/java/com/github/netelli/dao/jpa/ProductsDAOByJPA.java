@@ -29,10 +29,17 @@ public class ProductsDAOByJPA extends ProductsDAO {
     }
 
     @Override
-    public void updateBrandId(int productId, Brand brand) {
-        Product product = em.find(Product.class, productId);
+    public void updateBrandId(Product product, Brand brand) {
+//        Product product = em.find(Product.class, productId);
         em.getTransaction().begin();
         product.setBrand(brand);
+        em.getTransaction().commit();
+    }
+
+    @Override
+    public void remove(Product product) {
+        em.getTransaction().begin();
+        em.remove(product);
         em.getTransaction().commit();
     }
 }
