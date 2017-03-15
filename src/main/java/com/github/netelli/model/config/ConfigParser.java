@@ -1,6 +1,5 @@
 package com.github.netelli.model.config;
 
-import com.github.netelli.model.DataSourceType;
 import com.google.common.base.Preconditions;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
@@ -12,7 +11,6 @@ public class ConfigParser implements Parser {
 
     private static ConfigParser instance;
     private String jdbcUrl;
-    private DataSourceType dsType;
 
     private ConfigParser() {
     }
@@ -35,7 +33,6 @@ public class ConfigParser implements Parser {
 
         String dsType = config.getString("datasource.type");
         Preconditions.checkNotNull(dsType);
-        this.dsType = DataSourceType.valueOf(dsType.toUpperCase());
     }
 
     @Override
@@ -43,8 +40,4 @@ public class ConfigParser implements Parser {
         return jdbcUrl;
     }
 
-    @Override
-    public DataSourceType getDsType() {
-        return dsType;
-    }
 }

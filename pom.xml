@@ -7,7 +7,18 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>JDBC studing</name>
+    <name>JDBC study</name>
+
+    <properties>
+        <hibernate.version>5.2.6.Final</hibernate.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>JBoss repository</id>
+            <url>http://repository.jboss.com/maven2/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -34,6 +45,27 @@
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>net.bytebuddy</groupId>
+                    <artifactId>byte-buddy</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.4</version>
         </dependency>
 
         <!-- test -->
